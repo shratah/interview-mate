@@ -1,24 +1,59 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { WelcomePage } from './components/Welcome/WelcomePage';
+import { AuthPage } from './components/Auth/AuthPage';
+import { OnboardingPage } from './components/Onboarding/OnboardingPage';
+import { Dashboard } from './components/Dashboard/Dashboard';
 import './App.css';
 
+type AppStage = 'welcome' | 'auth' | 'onboarding' | 'dashboard';
+
 function App() {
+  const [stage, setStage] = useState<AppStage>('welcome');
+
+  const handleStartNow = () => {
+    setStage('auth');
+  };
+
+  const handleAuthSuccess = () => {
+    const hasOnboarded = localStorage.getItem('onboarded') === 'true';
+    if (hasOnboarded) {
+      setStage('dashboard');
+    } else {
+      setStage('onboarding');
+    }
+  };
+
+  const handleOnboardingComplete = () => {
+    localStorage.setItem('onboarded', 'true');
+    setStage('dashboard');
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('onboarded');
+    setStage('welcome');
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {stage === 'welcome' && (
+        <WelcomePage onStartNow={handleStartNow} />
+      )}
+      {stage === 'auth' && (
+        <AuthPage 
+          onAuthSuccess={handleAuthSuccess}
+          onBack={() => setStage('welcome')}
+        />
+      )}
+      {stage === 'onboarding' && (
+        <OnboardingPage 
+          onComplete={handleOnboardingComplete}
+          onBack={() => setStage('auth')}
+        />
+      )}
+      {stage === 'dashboard' && (
+        <Dashboard onLogout={handleLogout} />
+      )}
     </div>
   );
 }

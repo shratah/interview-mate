@@ -1,0 +1,269 @@
+
+
+INTERVIEW MATE – QA TEST CASES
+
+TEST ENVIRONMENT
+
+URL: http://localhost:3000
+Browser: Chrome (latest)
+OS: Windows 11
+Tester: Kavin
+Date: 2024
+
+
+TEST CASES
+
+TC-001: Welcome Page Load
+
+Priority: High
+
+Steps:
+1. Open http://localhost:3000
+2. Observe page load
+
+Expected:
+Welcome page loads with hero section, animations, and Start Now button.
+
+Status: Pass
+
+
+TC-002: Start Now Button
+
+Priority: High
+
+Steps:
+1. On the welcome page, click Start Now.
+
+Expected:
+Navigates to the Auth page with Login and Signup tabs.
+
+Status: Pass
+
+
+TC-003: User Signup
+
+Priority: Critical
+
+Steps:
+1. Click the Sign Up tab.
+2. Enter name, email, password, and confirm password.
+3. Click Create Account.
+
+Expected:
+User is created and redirected to the Onboarding page.
+
+Status: Pass
+
+
+TC-004: Signup Password Mismatch
+
+Priority: High
+
+Steps:
+1. Enter different passwords in the Password and Confirm Password fields.
+2. Click Create Account.
+
+Expected:
+Error message "Passwords do not match" is displayed.
+
+Status: Pass
+
+
+TC-005: Signup Short Password
+
+Priority: Medium
+
+Steps:
+1. Enter a password with less than 6 characters.
+2. Click Create Account.
+
+Expected:
+Error message "Password must be at least 6 characters" is displayed.
+
+Status: Pass
+
+
+TC-006: Onboarding Form – Age Validation
+
+Priority: High
+
+Steps:
+1. Enter an age below 16 or above 100.
+2. Click Next.
+
+Expected:
+Error message "Please enter a valid age" is displayed.
+
+Status: Pass
+
+
+TC-007: Onboarding Complete Flow
+
+Priority: Critical
+
+Steps:
+1. Fill in all onboarding fields.
+2. Click Finish Setup.
+
+Expected:
+User data is saved and the user is redirected to the Dashboard.
+
+Status: Pass
+
+
+TC-008: Login Redirect for Existing User
+
+Priority: Critical
+
+Steps:
+1. Logout from the application.
+2. Login using the same email.
+
+Expected:
+User goes directly to the Dashboard without completing the onboarding process again.
+
+Status: Pass
+
+
+TC-009: Login with New Email
+
+Priority: High
+
+Steps:
+1. Logout from the application.
+2. Login using a different email.
+
+Expected:
+The Onboarding form is displayed.
+
+Status: Pass
+
+
+TC-010: Session Persistence
+
+Priority: High
+
+Steps:
+1. Login to the application.
+2. Refresh the page using Ctrl + R.
+
+Expected:
+User remains logged in and stays on the Dashboard.
+
+Status: Pass
+
+
+TC-011: Start Mock Interview
+
+Priority: Critical
+
+Steps:
+1. On the Dashboard, click Start Mock Interview.
+
+Expected:
+Interview page loads with a Start Interview button.
+
+Status: Pass
+
+
+TC-012: Interview Question Flow
+
+Priority: Critical
+
+Steps:
+1. Click Start Interview.
+2. Answer 5 questions.
+
+Expected:
+Questions appear one by one and the progress bar updates accordingly.
+
+Status: Pass
+
+
+TC-013: Voice Input Button
+
+Priority: Medium
+
+Steps:
+1. During the interview, click the microphone button.
+
+Expected:
+Recording indicator is displayed and simulated voice input is added.
+
+Status: Pass
+
+
+TC-014: Empty Answer Submission
+
+Priority: Medium
+
+Steps:
+1. Leave the answer field empty.
+2. Click the Send button.
+
+Expected:
+Send button remains disabled and no action occurs.
+
+Status: Pass
+
+
+TC-015: Return to Dashboard
+
+Priority: High
+
+Steps:
+1. Complete all 5 interview questions.
+2. Click Return to Dashboard.
+
+Expected:
+User is redirected back to the Dashboard.
+
+Status: Pass
+
+
+TC-016: Logout
+
+Priority: High
+
+Steps:
+1. Click Logout.
+
+Expected:
+User is returned to the Welcome page.
+
+Status: Pass
+
+
+TC-017: Responsive Design – Mobile
+
+Priority: Medium
+
+Steps:
+1. Open DevTools using Ctrl + Shift + I.
+2. Toggle the device toolbar using Ctrl + Shift + M.
+3. Select an iPhone device.
+
+Expected:
+The user interface adapts correctly to the mobile layout.
+
+Status: Pass
+
+
+BUG REPORTS
+
+BUG-001: Onboarding Shown After Login
+
+Severity: High
+
+Status: Fixed
+
+Fix:
+Implemented email-based storage of onboarding data to ensure existing users are redirected directly to the Dashboard after login.
+
+
+TEST SUMMARY
+
+Total Tests: 17
+Passed: 17
+Failed: 0
+Pass Rate: 100%

@@ -13,25 +13,35 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
+  e.preventDefault();
+  setError('');
+  setIsLoading(true);
 
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+  try {
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    if (email && password) {
+      // ✅ Check if this email has onboarded before
+      const onboardedEmails = JSON.parse(localStorage.getItem('onboardedEmails') || '{}');
       
-      if (email && password) {
-        localStorage.setItem('user', JSON.stringify({ email, name: 'Demo User' }));
-        onSuccess();
-      } else {
-        setError('Please fill in all fields');
+      localStorage.setItem('user', JSON.stringify({ email, name: 'Demo User' }));
+      
+      // ✅ If this email was onboarded before, restore onboarding data
+      if (onboardedEmails[email]) {
+        localStorage.setItem('onboarded', 'true');
+        localStorage.setItem('onboardingData', JSON.stringify(onboardedEmails[email]));
       }
-    } catch (err) {
-      setError('Login failed. Please try again.');
-    } finally {
-      setIsLoading(false);
+      
+      onSuccess();
+    } else {
+      setError('Please fill in all fields');
     }
-  };
+  } catch (err) {
+    setError('Login failed. Please try again.');
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <form className="auth-form" onSubmit={handleSubmit}>

@@ -1,15 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { WelcomePage } from './components/Welcome/WelcomePage';
 import { AuthPage } from './components/Auth/AuthPage';
 import { OnboardingPage } from './components/Onboarding/OnboardingPage';
 import { Dashboard } from './components/Dashboard/Dashboard';
 import { InterviewPage } from './components/Interview/InterviewPage';
+import { EditProfile } from './components/Profile/EditProfile';
 import './App.css';
 
-type AppStage = 'welcome' | 'auth' | 'onboarding' | 'dashboard' | 'interview';
+type AppStage = 'welcome' | 'auth' | 'onboarding' | 'dashboard' | 'interview' | 'editProfile';
 
 function App() {
   const [stage, setStage] = useState<AppStage>('welcome');
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    const hasOnboarded = localStorage.getItem('onboarded') === 'true';
+
+    if (user) {
+      setStage(hasOnboarded ? 'dashboard' : 'onboarding');
+    }
+    setIsLoading(false);
+  }, []);
 
   const handleStartNow = () => setStage('auth');
 
@@ -24,13 +36,24 @@ function App() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('onboarded');
-    setStage('welcome');
-  };
+  localStorage.removeItem('user');
+  // ✅ Keep onboarded + onboardingData so next login skips onboarding
+  setStage('welcome');
+};
 
   const handleStartInterview = () => setStage('interview');
   const handleEndInterview = () => setStage('dashboard');
+  const handleEditProfile = () => setStage('editProfile');
+  const handleProfileSaved = () => setStage('dashboard');
+
+  if (isLoading) {
+    return (
+      <div className="app-loading">
+        <div className="loading-spinner"></div>
+        <p>Loading Interview Mate...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="App">
@@ -51,10 +74,14 @@ function App() {
         <Dashboard 
           onLogout={handleLogout}
           onStartInterview={handleStartInterview}
+          onEditProfile={handleEditProfile}
         />
       )}
       {stage === 'interview' && (
         <InterviewPage onEnd={handleEndInterview} />
+      )}
+      {stage === 'editProfile' && (
+        <EditProfile onSave={handleProfileSaved} onBack={() => setStage('dashboard')} />
       )}
     </div>
   );

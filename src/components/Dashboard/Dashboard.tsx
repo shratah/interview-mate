@@ -5,9 +5,10 @@ import './Dashboard.css';
 interface DashboardProps {
   onLogout: () => void;
   onStartInterview: () => void;
+  onEditProfile: () => void;
 }
 
-export const Dashboard: React.FC<DashboardProps> = ({ onLogout, onStartInterview }) => {
+export const Dashboard: React.FC<DashboardProps> = ({ onLogout, onStartInterview, onEditProfile }) => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const onboardingData = JSON.parse(localStorage.getItem('onboardingData') || '{}');
 
@@ -18,11 +19,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout, onStartInterview
           <h1>Interview Mate</h1>
         </div>
         <div className="nav-user">
-          <span className="user-name">{user.name || 'User'}</span>
-          <button onClick={onLogout} className="logout-btn">
-            <LogOut size={20} />
-          </button>
-        </div>
+  <div className="user-profile">
+    <div className="user-avatar">
+      {user.name ? user.name.charAt(0).toUpperCase() : '👤'}
+    </div>
+    <span className="user-name">{user.name || 'User'}</span>
+  </div>
+  <button onClick={onLogout} className="logout-btn">
+    <LogOut size={20} />
+  </button>
+</div>
       </nav>
 
       <main className="dashboard-content">
@@ -88,7 +94,20 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout, onStartInterview
             <button className="action-btn secondary">View Progress</button>
           </div>
         </section>
-
+<section className="quick-actions">
+  <h3>Quick Actions</h3>
+  <div className="actions-grid">
+    <button className="action-btn primary" onClick={onStartInterview}>
+      Start New Interview
+    </button>
+    <button className="action-btn secondary" onClick={onEditProfile}>
+      ✏️ Edit Profile
+    </button>
+    <button className="action-btn secondary">
+      View Progress
+    </button>
+  </div>
+</section>
         <section className="recent-activity">
           <h3>Recent Activity</h3>
           <div className="activity-list">

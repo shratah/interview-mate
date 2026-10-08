@@ -103,9 +103,21 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onBa
       setStep(step + 1);
     } else {
       if (validateForm()) {
-        localStorage.setItem('onboardingData', JSON.stringify(formData));
-        onComplete();
-      }
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  
+  // ✅ Save current session
+  localStorage.setItem('onboardingData', JSON.stringify(formData));
+  localStorage.setItem('onboarded', 'true');
+  
+  // ✅ Save permanently by email (so it survives logout)
+  const onboardedEmails = JSON.parse(localStorage.getItem('onboardedEmails') || '{}');
+  if (user.email) {
+    onboardedEmails[user.email] = formData;
+    localStorage.setItem('onboardedEmails', JSON.stringify(onboardedEmails));
+  }
+  
+  onComplete();
+}
     }
   };
 

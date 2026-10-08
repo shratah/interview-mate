@@ -1,12 +1,13 @@
 import React from 'react';
-import { LogOut, User, Award, Clock, TrendingUp } from 'lucide-react';
+import { LogOut, User, Award, Clock, TrendingUp, Mic } from 'lucide-react';
 import './Dashboard.css';
 
 interface DashboardProps {
   onLogout: () => void;
+  onStartInterview: () => void;
 }
 
-export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
+export const Dashboard: React.FC<DashboardProps> = ({ onLogout, onStartInterview }) => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const onboardingData = JSON.parse(localStorage.getItem('onboardingData') || '{}');
 
@@ -29,6 +30,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
           <h2>Welcome back, {user.name || 'User'}! 👋</h2>
           <p>Ready to practice for your {onboardingData.careerPath?.replace('_', ' ') || 'internship'} interview?</p>
         </section>
+
+        <div className="start-interview-section">
+          <button className="start-interview-btn-large" onClick={onStartInterview}>
+            <Mic size={24} />
+            Start Mock Interview
+          </button>
+          <p className="start-interview-hint">Practice with AI interviewer • 5 questions • Instant feedback</p>
+        </div>
 
         <div className="stats-grid">
           <div className="stat-card">
@@ -72,15 +81,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
         <section className="quick-actions">
           <h3>Quick Actions</h3>
           <div className="actions-grid">
-            <button className="action-btn primary">
+            <button className="action-btn primary" onClick={onStartInterview}>
               Start New Interview
             </button>
-            <button className="action-btn secondary">
-              Review Feedback
-            </button>
-            <button className="action-btn secondary">
-              View Progress
-            </button>
+            <button className="action-btn secondary">Review Feedback</button>
+            <button className="action-btn secondary">View Progress</button>
           </div>
         </section>
 

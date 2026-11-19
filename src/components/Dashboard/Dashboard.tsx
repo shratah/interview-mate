@@ -90,24 +90,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout, onStartInterview
             <button className="action-btn primary" onClick={onStartInterview}>
               Start New Interview
             </button>
+            <button className="action-btn secondary" onClick={onEditProfile}>
+              ✏️ Edit Profile
+            </button>
             <button className="action-btn secondary">Review Feedback</button>
             <button className="action-btn secondary">View Progress</button>
           </div>
         </section>
-<section className="quick-actions">
-  <h3>Quick Actions</h3>
-  <div className="actions-grid">
-    <button className="action-btn primary" onClick={onStartInterview}>
-      Start New Interview
-    </button>
-    <button className="action-btn secondary" onClick={onEditProfile}>
-      ✏️ Edit Profile
-    </button>
-    <button className="action-btn secondary">
-      View Progress
-    </button>
-  </div>
-</section>
         <section className="recent-activity">
           <h3>Recent Activity</h3>
           <div className="activity-list">
